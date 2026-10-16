@@ -1,7 +1,7 @@
 export type EmploymentStatus = 'ACTIVE' | 'INACTIVE';
 export type Gender = 'MALE' | 'FEMALE';
 export type AssignmentStatus = 'ACTIVE' | 'COMPLETED' | 'TERMINATED';
-export type ProjectStatus = 'ACTIVE' | 'UPCOMING' | 'COMPLETED' | 'ON_HOLD';
+export type ProjectStatus = 'ACTIVE' | 'UPCOMING' | 'COMPLETED' | 'ON_HOLD' | 'DRAFT';
 export type UserRole = 'ADMIN' | 'MANAGEMENT' | 'READ_ONLY';
 
 export interface Qualification {
@@ -39,6 +39,16 @@ export interface Personnel {
   joinDate: string; // YYYY-MM-DD
   notes?: string;
   qualifications: PersonnelQualification[];
+  // Uniform & Security Equipment Specifications (Kaporlap)
+  shirtSize?: string; // e.g. 'S', 'M', 'L', 'XL', 'XXL'
+  pantsSize?: string; // e.g. '30', '32', '34', '36'
+  shoesSize?: string; // e.g. '40', '41', '42', '43', '44'
+  headwearSize?: string; // e.g. '56', '57', '58'
+  dutyBeltSize?: string; // e.g. 'M (90cm)', 'L (100cm)', 'XL (110cm)'
+  bloodType?: string; // e.g. 'O+', 'A+', 'B+', 'AB+'
+  heightCm?: number; // e.g. 175
+  weightKg?: number; // e.g. 72
+  issuedGear?: string[]; // e.g. ['Tactical Baton', 'Handcuffs', 'Duty Belt', 'Flashlight', 'Radio HT']
   createdAt: string;
   updatedAt: string;
 }

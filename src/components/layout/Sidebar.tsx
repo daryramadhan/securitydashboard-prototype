@@ -62,13 +62,16 @@ export function Sidebar() {
         {/* Brand Header */}
         <div className="flex items-center justify-between px-1">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-xl bg-[#18181b] text-white flex items-center justify-center shadow-sm">
-              <Shield className="h-4 w-4" />
+            <div className="h-8 w-8 rounded-xl bg-slate-950 text-[#FFF100] flex items-center justify-center shadow-sm border border-slate-800 shrink-0">
+              <Shield className="h-4 w-4 fill-[#FFF100]/25 text-[#FFF100]" />
             </div>
             <div>
-              <span className="font-bold text-sm tracking-tight text-slate-900 block leading-tight">
-                PT. JISS
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm tracking-tight text-slate-900 block leading-tight font-sans">
+                  PT. JISS
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FFF100] ring-2 ring-slate-950/10" />
+              </div>
               <span className="text-[10px] text-slate-500 font-medium leading-none">
                 Personnel Management
               </span>
@@ -99,14 +102,18 @@ export function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all ${
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all relative overflow-hidden ${
                     isActive
-                      ? 'bg-white border border-slate-200/80 text-slate-900 font-semibold shadow-[0_1px_2px_rgba(0,0,0,0.04)]'
+                      ? 'bg-white border border-slate-200/90 text-slate-950 font-bold shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 font-medium'
                   }`}
                 >
+                  {isActive && (
+                    <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-[#FFF100]" />
+                  )}
+
                   <div className="flex items-center gap-2.5">
-                    <Icon className={`h-4 w-4 ${isActive ? 'text-slate-900' : 'text-slate-400'}`} />
+                    <Icon className={`h-4 w-4 ${isActive ? 'text-slate-950 font-bold' : 'text-slate-400'}`} />
                     <span>{item.label}</span>
                   </div>
 
@@ -131,7 +138,9 @@ export function Sidebar() {
               <Clock className="h-3.5 w-3.5 text-slate-700" />
               Force Deployment
             </span>
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">ACTIVE</span>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-950 text-[#FFF100] border border-slate-800">
+              ACTIVE
+            </span>
           </div>
 
           <div className="space-y-1 text-xs text-slate-500">
@@ -139,9 +148,9 @@ export function Sidebar() {
               <span>Active Deployed:</span>
               <strong className="text-slate-900 font-bold">{metrics.deployedPersonnel} Guards</strong>
             </div>
-            <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-slate-200/80 rounded-full h-1.5 overflow-hidden">
               <div
-                className="bg-slate-900 h-1.5 rounded-full transition-all duration-500"
+                className="bg-[#FFF100] h-1.5 rounded-full transition-all duration-500"
                 style={{
                   width: `${metrics.activePersonnel ? (metrics.deployedPersonnel / metrics.activePersonnel) * 100 : 0}%`,
                 }}

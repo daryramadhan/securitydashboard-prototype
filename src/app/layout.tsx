@@ -3,6 +3,7 @@ import './globals.css';
 import { AppProvider } from '@/context/AppContext';
 import { Navbar } from '@/components/layout/Navbar';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'PT. JISS - Security Operations & Personnel Management',
@@ -28,6 +29,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
+          <Toaster position="top-right" richColors />
         </AppProvider>
       </body>
     </html>

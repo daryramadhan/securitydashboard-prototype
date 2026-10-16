@@ -1,10 +1,10 @@
 import { Personnel, Client, Project, Location, Assignment, OrgUnit, Qualification } from '@/types';
 
 export const initialOrgUnits: OrgUnit[] = [
-  { id: 'org-1', name: 'Executive Operations', parentUnitId: null, headPersonnelId: 'p-1' },
-  { id: 'org-2', name: 'Commercial & Corporate Division', parentUnitId: 'org-1', headPersonnelId: 'p-2' },
-  { id: 'org-3', name: 'Industrial & Maritime Division', parentUnitId: 'org-1', headPersonnelId: 'p-3' },
-  { id: 'org-4', name: 'VIP Protection & Specialized Units', parentUnitId: 'org-1', headPersonnelId: 'p-4' },
+  { id: 'org-1', name: 'Central Rapid Response Squad', parentUnitId: null, headPersonnelId: 'p-1' },
+  { id: 'org-2', name: 'Commercial & Corporate Security Squad', parentUnitId: 'org-1', headPersonnelId: 'p-2' },
+  { id: 'org-3', name: 'Industrial & Maritime Security Squad', parentUnitId: 'org-1', headPersonnelId: 'p-3' },
+  { id: 'org-4', name: 'VIP Protection & Escort Squad', parentUnitId: 'org-1', headPersonnelId: 'p-4' },
 ];
 
 export const initialClients: Client[] = [
@@ -122,9 +122,64 @@ export const initialProjects: Project[] = [
     status: 'COMPLETED',
     description: 'Temporary perimeter guarding for international banking exhibition.',
   },
+  {
+    id: 'proj-draft-1',
+    clientId: 'client-1',
+    clientName: 'PT Astra International Tbk',
+    name: 'Astra Biz Center BSD City Expansion',
+    projectCode: 'ASTRA-BSD-DRAFT',
+    startDate: '2026-11-15',
+    endDate: '2027-11-15',
+    status: 'DRAFT',
+    description: 'Proposed integrated physical security and perimeter access for new automotive tech center.',
+  },
+  {
+    id: 'proj-draft-2',
+    clientId: 'client-4',
+    clientName: 'PT Pelabuhan Indonesia (Pelindo)',
+    name: 'Kalibaru Terminal Phase 2 Guarding Proposal',
+    projectCode: 'PELINDO-KALIBARU-DRAFT',
+    startDate: '2026-12-01',
+    endDate: '2027-12-01',
+    status: 'DRAFT',
+    description: 'Tender specification for automated gate control and marine security patrols.',
+  },
 ];
 
 export const initialLocations: Location[] = [
+  {
+    id: 'loc-completed-1',
+    clientId: 'client-3',
+    clientName: 'PT Danayasa Arthatama (SCBD)',
+    projectId: 'proj-6',
+    projectName: 'SCBD Lot 28 Pop-up Event Security',
+    name: 'SCBD Lot 28 - Exhibition Ground & Gate',
+    address: 'SCBD Lot 28, Jl. Jend. Sudirman',
+    city: 'Jakarta Selatan',
+    status: 'INACTIVE',
+  },
+  {
+    id: 'loc-draft-1',
+    clientId: 'client-1',
+    clientName: 'PT Astra International Tbk',
+    projectId: 'proj-draft-1',
+    projectName: 'Astra Biz Center BSD City Expansion',
+    name: 'Astra Biz Center - South Gate & Showroom',
+    address: 'Jl. BSD Grand Boulevard Kav. Commercial',
+    city: 'Tangerang',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'loc-draft-2',
+    clientId: 'client-4',
+    clientName: 'PT Pelabuhan Indonesia (Pelindo)',
+    projectId: 'proj-draft-2',
+    projectName: 'Kalibaru Terminal Phase 2 Guarding Proposal',
+    name: 'Kalibaru New Port - Logistics Ingate Checkpoint',
+    address: 'Kawasan Kalibaru, Tanjung Priok',
+    city: 'Jakarta Utara',
+    status: 'ACTIVE',
+  },
   {
     id: 'loc-1',
     clientId: 'client-1',
@@ -256,7 +311,7 @@ const standardPositions = [
 function generateSimulatedDataset() {
   const personnel: Personnel[] = [];
 
-  // 1. Leadership Foundation (4 personnel: 3 Men, 1 Woman)
+  // 1. Troops Squad Leadership (4 personnel: 3 Men, 1 Woman - all active field security)
   personnel.push({
     id: 'p-1',
     personnelNumber: 'JISS-001',
@@ -265,14 +320,23 @@ function generateSimulatedDataset() {
     gender: 'MALE',
     phone: '+62 811-9001-001',
     email: 'hartono.sutanto@jiss.co.id',
-    position: 'Chief Security Officer (CSO)',
+    position: 'Chief Security (Danru Utama)',
     organizationalUnitId: 'org-1',
-    organizationalUnitName: 'Executive Operations',
+    organizationalUnitName: 'Central Rapid Response Squad',
     supervisorId: null,
     supervisorName: null,
     employmentStatus: 'ACTIVE',
     joinDate: '2020-01-10',
-    notes: 'Ex-military advisor, leads strategic agency operations and high-level client coordination.',
+    notes: 'Senior field security commander, leads rapid response squad and high-priority site operations.',
+    shirtSize: 'XL',
+    pantsSize: '36',
+    shoesSize: '43',
+    headwearSize: '59',
+    dutyBeltSize: 'XL (110cm)',
+    bloodType: 'O+',
+    heightCm: 178,
+    weightKg: 78,
+    issuedGear: ['Tongkat T (Tactical Baton)', 'Borgol Baja (Handcuffs)', 'Kopel Rim (Duty Belt)', 'Handy Talkie (HT Motorola)', 'Rompi Reflektif (Safety Vest)'],
     qualifications: [
       { id: 'q-1', personnelId: 'p-1', qualificationId: 'qual-1', qualificationName: 'Gada Utama', issuingOrg: 'Mabes Polri', issueDate: '2021-03-10', expiryDate: '2027-03-10', status: 'VALID' },
       { id: 'q-2', personnelId: 'p-1', qualificationId: 'qual-5', qualificationName: 'ISPS Code Maritime Security Auditor', issuingOrg: 'Ministry of Transportation', issueDate: '2020-05-12', expiryDate: '2028-05-12', status: 'VALID' }
@@ -289,14 +353,23 @@ function generateSimulatedDataset() {
     gender: 'MALE',
     phone: '+62 812-8821-002',
     email: 'wahyu.sudrajat@jiss.co.id',
-    position: 'Head of Commercial Security',
+    position: 'Senior Shift Supervisor',
     organizationalUnitId: 'org-2',
-    organizationalUnitName: 'Commercial & Corporate Division',
+    organizationalUnitName: 'Commercial & Corporate Security Squad',
     supervisorId: 'p-1',
     supervisorName: 'Kolonel (Purn.) Hartono Sutanto',
     employmentStatus: 'ACTIVE',
     joinDate: '2021-04-15',
-    notes: 'Oversees office towers, banking networks, and retail mall security contracts.',
+    notes: 'Oversees commercial building patrol squad, mall safety, and access control.',
+    shirtSize: 'L',
+    pantsSize: '34',
+    shoesSize: '42',
+    headwearSize: '58',
+    dutyBeltSize: 'L (100cm)',
+    bloodType: 'B+',
+    heightCm: 175,
+    weightKg: 74,
+    issuedGear: ['Tongkat T (Tactical Baton)', 'Borgol Baja (Handcuffs)', 'Kopel Rim (Duty Belt)', 'Handy Talkie (HT Motorola)', 'Senter Lalin LED (Flashlight)'],
     qualifications: [
       { id: 'q-3', personnelId: 'p-2', qualificationId: 'qual-2', qualificationName: 'Gada Madya', issuingOrg: 'Polda Metro Jaya', issueDate: '2021-06-01', expiryDate: '2027-06-01', status: 'VALID' }
     ],
@@ -312,14 +385,23 @@ function generateSimulatedDataset() {
     gender: 'MALE',
     phone: '+62 813-7744-003',
     email: 'darmawan.prasetyo@jiss.co.id',
-    position: 'Head of Industrial & Port Operations',
+    position: 'Maritime & Industrial Patrol Lead',
     organizationalUnitId: 'org-3',
-    organizationalUnitName: 'Industrial & Maritime Division',
+    organizationalUnitName: 'Industrial & Maritime Security Squad',
     supervisorId: 'p-1',
     supervisorName: 'Kolonel (Purn.) Hartono Sutanto',
     employmentStatus: 'ACTIVE',
     joinDate: '2021-08-01',
-    notes: 'Specializes in port security, logistics hubs, and bonded warehouse protection.',
+    notes: 'Specializes in perimeter anti-intrusion, logistics dock protection, and port security squad.',
+    shirtSize: 'XL',
+    pantsSize: '35',
+    shoesSize: '44',
+    headwearSize: '59',
+    dutyBeltSize: 'L (105cm)',
+    bloodType: 'A+',
+    heightCm: 180,
+    weightKg: 82,
+    issuedGear: ['Tongkat T (Tactical Baton)', 'Borgol Baja (Handcuffs)', 'Kopel Rim (Duty Belt)', 'Handy Talkie (HT Motorola)', 'Rompi Taktis Pelabuhan'],
     qualifications: [
       { id: 'q-4', personnelId: 'p-3', qualificationId: 'qual-5', qualificationName: 'ISPS Code Maritime Security Auditor', issuingOrg: 'Ministry of Transportation', issueDate: '2021-08-10', expiryDate: '2027-08-10', status: 'VALID' }
     ],
@@ -335,14 +417,23 @@ function generateSimulatedDataset() {
     gender: 'FEMALE',
     phone: '+62 812-4411-004',
     email: 'siti.nurhaliza@jiss.co.id',
-    position: 'Head of VIP Protection & Special Units',
+    position: 'VIP Protection Lead Officer',
     organizationalUnitId: 'org-4',
-    organizationalUnitName: 'VIP Protection & Specialized Units',
+    organizationalUnitName: 'VIP Protection & Escort Squad',
     supervisorId: 'p-1',
     supervisorName: 'Kolonel (Purn.) Hartono Sutanto',
     employmentStatus: 'ACTIVE',
     joinDate: '2022-02-01',
-    notes: 'Ex-police escort commander. Leads dignitary close protection, K-9 handling, and escort services.',
+    notes: 'Close protection squad commander, dignitary security escort, and tactical handler.',
+    shirtSize: 'M',
+    pantsSize: '30',
+    shoesSize: '39',
+    headwearSize: '56',
+    dutyBeltSize: 'M (90cm)',
+    bloodType: 'AB+',
+    heightCm: 168,
+    weightKg: 58,
+    issuedGear: ['Tongkat T (Tactical Baton)', 'Borgol Baja (Handcuffs)', 'Kopel Rim (Duty Belt)', 'Handy Talkie (HT Motorola)', 'Tactical Concealed Holster'],
     qualifications: [
       { id: 'q-5', personnelId: 'p-4', qualificationId: 'qual-1', qualificationName: 'Gada Utama', issuingOrg: 'Mabes Polri', issueDate: '2022-03-01', expiryDate: '2028-03-01', status: 'VALID' }
     ],
@@ -350,7 +441,28 @@ function generateSimulatedDataset() {
     updatedAt: '2026-03-01',
   });
 
-  // 2. Generate remaining 66 Women (to reach exactly 67 Women)
+  // 2. Define Field Commanders (Danru) who lead teams within each squad
+  const danrusOrg2 = [
+    { id: 'p-71', padId: '071', name: 'Darmawan Kusuma', supervisorId: 'p-2', supervisorName: 'Mayor (Purn.) Wahyu Sudrajat', unitId: 'org-2', unitName: 'Commercial & Corporate Security Squad' },
+    { id: 'p-72', padId: '072', name: 'Teguh Prasetyo', supervisorId: 'p-2', supervisorName: 'Mayor (Purn.) Wahyu Sudrajat', unitId: 'org-2', unitName: 'Commercial & Corporate Security Squad' },
+    { id: 'p-73', padId: '073', name: 'Bambang Wijaya', supervisorId: 'p-2', supervisorName: 'Mayor (Purn.) Wahyu Sudrajat', unitId: 'org-2', unitName: 'Commercial & Corporate Security Squad' },
+    { id: 'p-74', padId: '074', name: 'Eko Suryanto', supervisorId: 'p-2', supervisorName: 'Mayor (Purn.) Wahyu Sudrajat', unitId: 'org-2', unitName: 'Commercial & Corporate Security Squad' },
+  ];
+
+  const danrusOrg3 = [
+    { id: 'p-75', padId: '075', name: 'Hendra Setiawan', supervisorId: 'p-3', supervisorName: 'Kapten (Purn.) Darmawan Prasetyo', unitId: 'org-3', unitName: 'Industrial & Maritime Security Squad' },
+    { id: 'p-76', padId: '076', name: 'Agus Hidayat', supervisorId: 'p-3', supervisorName: 'Kapten (Purn.) Darmawan Prasetyo', unitId: 'org-3', unitName: 'Industrial & Maritime Security Squad' },
+    { id: 'p-77', padId: '077', name: 'Fajar Kurniawan', supervisorId: 'p-3', supervisorName: 'Kapten (Purn.) Darmawan Prasetyo', unitId: 'org-3', unitName: 'Industrial & Maritime Security Squad' },
+  ];
+
+  const danrusOrg4 = [
+    { id: 'p-78', padId: '078', name: 'Bayu Nugroho', supervisorId: 'p-4', supervisorName: 'Kompol (Purn.) Siti Nurhaliza', unitId: 'org-4', unitName: 'VIP Protection & Escort Squad' },
+    { id: 'p-79', padId: '079', name: 'Ahmad Saputra', supervisorId: 'p-4', supervisorName: 'Kompol (Purn.) Siti Nurhaliza', unitId: 'org-4', unitName: 'VIP Protection & Escort Squad' },
+  ];
+
+  const allDanrus = [...danrusOrg2, ...danrusOrg3, ...danrusOrg4];
+
+  // 3. Generate remaining 66 Women (to reach exactly 67 Women) - all reporting to their squad Danru
   for (let i = 0; i < 66; i++) {
     const idNum = 5 + i;
     const padId = String(idNum).padStart(3, '0');
@@ -363,27 +475,22 @@ function generateSimulatedDataset() {
     const unitId = i % 4 === 0 ? 'org-4' : i % 3 === 0 ? 'org-3' : 'org-2';
     const unitName =
       unitId === 'org-4'
-        ? 'VIP Protection & Specialized Units'
+        ? 'VIP Protection & Escort Squad'
         : unitId === 'org-3'
-        ? 'Industrial & Maritime Division'
-        : 'Commercial & Corporate Division';
+        ? 'Industrial & Maritime Security Squad'
+        : 'Commercial & Corporate Security Squad';
 
-    const supervisorId = unitId === 'org-4' ? 'p-4' : unitId === 'org-3' ? 'p-3' : 'p-2';
-    const supervisorName =
-      unitId === 'org-4'
-        ? 'Kompol (Purn.) Siti Nurhaliza'
-        : unitId === 'org-3'
-        ? 'Kapten (Purn.) Darmawan Prasetyo'
-        : 'Mayor (Purn.) Wahyu Sudrajat';
+    const squadDanrus = unitId === 'org-4' ? danrusOrg4 : unitId === 'org-3' ? danrusOrg3 : danrusOrg2;
+    const assignedDanru = squadDanrus[i % squadDanrus.length];
 
-    const pos = i % 8 === 0
+    const pos = i % 7 === 0
       ? 'Access Control & Lobby Specialist'
-      : i % 7 === 0
+      : i % 6 === 0
       ? 'VIP Close Protection Officer'
       : i % 5 === 0
       ? 'CCTV & Surveillance Specialist'
-      : i % 6 === 0
-      ? 'Shift Supervisor'
+      : i % 4 === 0
+      ? 'Senior Patrol Officer'
       : 'Security Officer (Pratama)';
 
     // Exactly 3 women inactive (out of 67)
@@ -400,11 +507,26 @@ function generateSimulatedDataset() {
       position: pos,
       organizationalUnitId: unitId,
       organizationalUnitName: unitName,
-      supervisorId,
-      supervisorName,
+      supervisorId: assignedDanru.id,
+      supervisorName: assignedDanru.name,
       employmentStatus: isInactive ? 'INACTIVE' : 'ACTIVE',
       joinDate: `2024-${String((i % 12) + 1).padStart(2, '0')}-15`,
       notes: isInactive ? 'Resigned - contract completed.' : 'Active certified security personnel.',
+      shirtSize: ['S', 'M', 'L', 'XL'][i % 4],
+      pantsSize: ['28', '29', '30', '31', '32'][i % 5],
+      shoesSize: ['38', '39', '40', '41'][i % 4],
+      headwearSize: ['55', '56', '57'][i % 3],
+      dutyBeltSize: ['S (85cm)', 'M (90cm)', 'L (95cm)'][i % 3],
+      bloodType: ['O+', 'A+', 'B+', 'AB+'][i % 4],
+      heightCm: 162 + (i % 9),
+      weightKg: 52 + (i % 14),
+      issuedGear: [
+        'Tongkat T (Tactical Baton)',
+        'Borgol Baja (Handcuffs)',
+        'Kopel Rim (Duty Belt)',
+        'Handy Talkie (HT Motorola)',
+        i % 2 === 0 ? 'Senter Lalin LED (Flashlight)' : 'Peluit & Tali Kur (Whistle)',
+      ],
       qualifications: [
         {
           id: `q-f-${i + 1}`,
@@ -422,9 +544,71 @@ function generateSimulatedDataset() {
     });
   }
 
-  // 3. Generate remaining 280 Men (to reach exactly 283 Men)
-  for (let i = 0; i < 280; i++) {
-    const idNum = 71 + i;
+  // 4. Create the 9 Danru Field Commanders (p-71 to p-79)
+  allDanrus.forEach((d, idx) => {
+    personnel.push({
+      id: d.id,
+      personnelNumber: `JISS-${d.padId}`,
+      fullName: d.name,
+      photoUrl: maleAvatars[idx % maleAvatars.length],
+      gender: 'MALE',
+      phone: `+62 813-2000-${d.padId}`,
+      email: `${d.name.toLowerCase().replace(/\s+/g, '.')}@jiss.co.id`,
+      position: 'Field Commander (Danru)',
+      organizationalUnitId: d.unitId,
+      organizationalUnitName: d.unitName,
+      supervisorId: d.supervisorId,
+      supervisorName: d.supervisorName,
+      employmentStatus: 'ACTIVE',
+      joinDate: '2022-06-01',
+      notes: 'Field tactical commander leading security squad deployments.',
+      shirtSize: ['L', 'XL'][idx % 2],
+      pantsSize: ['33', '34', '35'][idx % 3],
+      shoesSize: ['42', '43', '44'][idx % 3],
+      headwearSize: ['58', '59'][idx % 2],
+      dutyBeltSize: 'L (105cm)',
+      bloodType: ['O+', 'B+', 'A+'][idx % 3],
+      heightCm: 175 + (idx % 5),
+      weightKg: 74 + (idx % 6),
+      issuedGear: [
+        'Tongkat T (Tactical Baton)',
+        'Borgol Baja (Handcuffs)',
+        'Kopel Rim (Duty Belt)',
+        'Handy Talkie (HT Motorola)',
+        'Senter Lalin LED (Flashlight)',
+        'Rompi Reflektif (Safety Vest)',
+      ],
+      qualifications: [
+        {
+          id: `q-danru-${idx + 1}`,
+          personnelId: d.id,
+          qualificationId: 'qual-2',
+          qualificationName: 'Gada Madya',
+          issuingOrg: 'Polda Metro Jaya',
+          issueDate: '2022-07-15',
+          expiryDate: '2028-07-15',
+          status: 'VALID',
+        },
+      ],
+      createdAt: '2022-06-01',
+      updatedAt: '2026-01-01',
+    });
+  });
+
+  // 5. Generate remaining 271 Men (p-80 to p-350, reaching exactly 283 Men total)
+  const remainingMaleCount = 271; // 3 leaders + 9 danrus + 271 guards = 283 men
+  const guardMalePositions = [
+    'Security Officer (Pratama)',
+    'Senior Patrol Officer',
+    'Access Control & Lobby Specialist',
+    'CCTV & Surveillance Specialist',
+    'Loading Dock & X-Ray Screener',
+    'K-9 Specialist Handler',
+    'VIP Close Protection Officer',
+  ];
+
+  for (let i = 0; i < remainingMaleCount; i++) {
+    const idNum = 80 + i;
     const padId = String(idNum).padStart(3, '0');
     const fn = maleFirstNames[i % maleFirstNames.length];
     const ln = maleLastNames[(i * 7 + 2) % maleLastNames.length];
@@ -434,23 +618,18 @@ function generateSimulatedDataset() {
     const unitId = i % 5 === 0 ? 'org-4' : i % 2 === 0 ? 'org-2' : 'org-3';
     const unitName =
       unitId === 'org-4'
-        ? 'VIP Protection & Specialized Units'
+        ? 'VIP Protection & Escort Squad'
         : unitId === 'org-3'
-        ? 'Industrial & Maritime Division'
-        : 'Commercial & Corporate Division';
+        ? 'Industrial & Maritime Security Squad'
+        : 'Commercial & Corporate Security Squad';
 
-    const supervisorId = unitId === 'org-4' ? 'p-4' : unitId === 'org-3' ? 'p-3' : 'p-2';
-    const supervisorName =
-      unitId === 'org-4'
-        ? 'Kompol (Purn.) Siti Nurhaliza'
-        : unitId === 'org-3'
-        ? 'Kapten (Purn.) Darmawan Prasetyo'
-        : 'Mayor (Purn.) Wahyu Sudrajat';
+    const squadDanrus = unitId === 'org-4' ? danrusOrg4 : unitId === 'org-3' ? danrusOrg3 : danrusOrg2;
+    const assignedDanru = squadDanrus[i % squadDanrus.length];
 
-    const pos = standardPositions[i % standardPositions.length];
+    const pos = guardMalePositions[i % guardMalePositions.length];
 
     // 12 men inactive (out of 283) -> Total inactive = 3 + 12 = 15
-    const isInactive = i > 0 && i % 24 === 0;
+    const isInactive = i > 0 && i % 22 === 0 && i <= 264;
 
     personnel.push({
       id: `p-${idNum}`,
@@ -463,11 +642,26 @@ function generateSimulatedDataset() {
       position: pos,
       organizationalUnitId: unitId,
       organizationalUnitName: unitName,
-      supervisorId,
-      supervisorName,
+      supervisorId: assignedDanru.id,
+      supervisorName: assignedDanru.name,
       employmentStatus: isInactive ? 'INACTIVE' : 'ACTIVE',
       joinDate: `2023-${String((i % 12) + 1).padStart(2, '0')}-01`,
       notes: isInactive ? 'Resigned - contract period ended.' : 'Active certified field officer.',
+      shirtSize: ['M', 'L', 'XL', 'XXL'][i % 4],
+      pantsSize: ['31', '32', '33', '34', '36', '38'][i % 6],
+      shoesSize: ['41', '42', '43', '44', '45'][i % 5],
+      headwearSize: ['57', '58', '59', '60'][i % 4],
+      dutyBeltSize: ['M (95cm)', 'L (105cm)', 'XL (115cm)'][i % 3],
+      bloodType: ['O+', 'B+', 'A+', 'AB+'][i % 4],
+      heightCm: 170 + (i % 14),
+      weightKg: 66 + (i % 20),
+      issuedGear: [
+        'Tongkat T (Tactical Baton)',
+        'Borgol Baja (Handcuffs)',
+        'Kopel Rim (Duty Belt)',
+        'Handy Talkie (HT Motorola)',
+        i % 3 === 0 ? 'Rompi Reflektif (Safety Vest)' : 'Senter Lalin LED (Flashlight)',
+      ],
       qualifications: [
         {
           id: `q-m-${i + 1}`,
@@ -547,14 +741,14 @@ function generateSimulatedAssignments(personnel: Personnel[]): Assignment[] {
     personnelName: 'Kolonel (Purn.) Hartono Sutanto',
     personnelNumber: 'JISS-001',
     personnelPhoto: initialPersonnel[0].photoUrl,
-    personnelPosition: 'Chief Security Officer (CSO)',
+    personnelPosition: 'Chief Security (Danru Utama)',
     projectId: 'proj-6',
     projectName: 'SCBD Lot 28 Pop-up Event Security',
     clientId: 'client-3',
     clientName: 'PT Danayasa Arthatama (SCBD)',
     locationId: 'loc-4',
     locationName: 'SCBD Pacific Place Outer Perimeter',
-    positionOnSite: 'Special Operations Director',
+    positionOnSite: 'Site Commander (Danru)',
     startDate: '2026-08-01',
     endDate: '2026-09-30',
     status: 'COMPLETED',

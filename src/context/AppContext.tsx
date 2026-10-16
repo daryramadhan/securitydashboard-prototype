@@ -64,7 +64,7 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'PT_JISS_DASHBOARD_DATA_V2';
+const STORAGE_KEY = 'PT_JISS_DASHBOARD_DATA_V4';
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [role, setRole] = useState<UserRole>('ADMIN');

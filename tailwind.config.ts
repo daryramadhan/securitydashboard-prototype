@@ -18,7 +18,17 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Switzer', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        switzer: ['Switzer', 'sans-serif'],
+      },
       colors: {
+        jiss: {
+          yellow: '#FFF100',
+          yellowHover: '#ECD000',
+          dark: '#111827',
+          black: '#09090b',
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -22,6 +22,17 @@ interface AssignModalProps {
   personnel: Personnel;
 }
 
+const DEFAULT_DUTY_POSITIONS = [
+  'Site Commander (Danru)',
+  'Shift Supervisor',
+  'Access Control & Lobby Specialist',
+  'Perimeter Patrol Officer',
+  'CCTV & Surveillance Specialist',
+  'Loading Dock & X-Ray Screener',
+  'VIP Close Protection Officer',
+  'Traffic & Ingress Controller',
+];
+
 export function AssignModal({ isOpen, onClose, personnel }: AssignModalProps) {
   const { locations, projects, assignPersonnel, getActiveAssignmentForPersonnel } = useApp();
 
@@ -103,17 +114,55 @@ export function AssignModal({ isOpen, onClose, personnel }: AssignModalProps) {
           </div>
 
           <div>
-            <Label htmlFor="duty-position" className="block mb-1.5 font-bold text-slate-700">
-              Position / Duty on Site <span className="text-rose-500">*</span>
-            </Label>
+            <div className="flex items-center justify-between mb-1.5">
+              <Label htmlFor="duty-position" className="font-bold text-slate-700">
+                Position / Duty on Site <span className="text-rose-500">*</span>
+              </Label>
+              <button
+                type="button"
+                onClick={() => setPositionOnSite(personnel.position)}
+                className="text-[10px] font-semibold text-blue-600 hover:text-blue-800 transition underline"
+                title="Use guard's official job position"
+              >
+                Default: {personnel.position}
+              </button>
+            </div>
             <Input
               id="duty-position"
+              list="profile-duty-position-suggestions"
               type="text"
               value={positionOnSite}
               onChange={(e) => setPositionOnSite(e.target.value)}
-              placeholder="e.g. Lobby Access Screener, Shift Leader..."
+              placeholder="Select a quick choice below or type custom..."
+              className="mb-2"
               required
             />
+            <datalist id="profile-duty-position-suggestions">
+              {DEFAULT_DUTY_POSITIONS.map((pos) => (
+                <option key={pos} value={pos} />
+              ))}
+            </datalist>
+
+            {/* Quick Selection Pills */}
+            <div className="flex flex-wrap gap-1.5 pt-0.5">
+              {DEFAULT_DUTY_POSITIONS.map((pos) => {
+                const isSelected = positionOnSite === pos;
+                return (
+                  <button
+                    key={pos}
+                    type="button"
+                    onClick={() => setPositionOnSite(pos)}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all border ${
+                      isSelected
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                        : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/80 hover:border-slate-300'
+                    }`}
+                  >
+                    {pos}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">

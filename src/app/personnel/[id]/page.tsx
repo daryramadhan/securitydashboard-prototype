@@ -24,6 +24,7 @@ import {
   Edit,
   UserMinus,
   Download,
+  CheckCircle2,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -161,10 +162,10 @@ export default function PersonnelDetailPage() {
         </div>
       </div>
 
-      {/* Grid: Profile Left Sidebar + Content Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Personal, Contact & Employment Cards */}
-        <div className="space-y-6">
+      {/* Grid: Profile Left Sidebar (Sticky & Fixed) + Content Right (Scrollable) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Left Column: Personal, Contact & Employment Cards (Sticky & Fixed) */}
+        <div className="space-y-6 lg:sticky lg:top-0 self-start lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Section A: Personal Overview Card */}
           <Card className="p-5 text-center space-y-4 shadow-sm border-slate-200/80">
             <div className="relative inline-block mx-auto">
@@ -279,6 +280,31 @@ export default function PersonnelDetailPage() {
               </div>
             </div>
 
+            {/* Section: Uniform Sizing Quick Glance */}
+            <div className="pt-3 border-t border-slate-100">
+              <span className="text-[10px] uppercase font-bold text-slate-500 block mb-2">
+                Uniform Sizing (Kaporlap):
+              </span>
+              <div className="grid grid-cols-3 gap-1.5 text-center">
+                <div className="p-2 rounded-lg bg-slate-50 border border-slate-200">
+                  <div className="text-[9px] text-slate-400 font-medium">Shirt</div>
+                  <div className="text-xs font-bold text-slate-800">{person.shirtSize || 'L'}</div>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-50 border border-slate-200">
+                  <div className="text-[9px] text-slate-400 font-medium">Pants</div>
+                  <div className="text-xs font-bold text-slate-800">{person.pantsSize || '34'}</div>
+                </div>
+                <div className="p-2 rounded-lg bg-slate-50 border border-slate-200">
+                  <div className="text-[9px] text-slate-400 font-medium">Shoes</div>
+                  <div className="text-xs font-bold text-slate-800">{person.shoesSize || '42'}</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-slate-600 mt-2 px-1">
+                <span>Belt: <strong className="text-slate-800">{person.dutyBeltSize || 'L'}</strong></span>
+                <span>Blood: <strong className="text-rose-600">{person.bloodType || 'O+'}</strong></span>
+              </div>
+            </div>
+
             {person.notes && (
               <div className="pt-3 border-t border-slate-100 text-slate-600">
                 <span className="text-[10px] uppercase font-bold text-slate-700 block mb-1">
@@ -291,173 +317,290 @@ export default function PersonnelDetailPage() {
         </div>
 
         {/* Right Columns: Current Deployment, Qualifications, Placement History with Tabs */}
-        <div className="lg:col-span-2 space-y-6">
-          <Tabs defaultValue="deployment" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="deployment" className="gap-1.5 font-bold">
-                <MapPin className="h-3.5 w-3.5" />
-                <span>Current Deployment</span>
-              </TabsTrigger>
-              <TabsTrigger value="qualifications" className="gap-1.5 font-bold">
-                <Award className="h-3.5 w-3.5" />
-                <span>Qualifications ({person.qualifications.length})</span>
-              </TabsTrigger>
-              <TabsTrigger value="history" className="gap-1.5 font-bold">
-                <History className="h-3.5 w-3.5" />
-                <span>History ({priorAssignments.length})</span>
-              </TabsTrigger>
-            </TabsList>
-
-            {/* TAB 1: Current Deployment */}
-            <TabsContent value="deployment">
-              <Card className="p-5 shadow-sm border-slate-200/80">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                  <CardTitle className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                    <MapPin className="h-4 w-4 text-blue-600" />
+        {/* Right Columns: Unified All-in-One Information Display (No Tabs) */}
+        <div className="lg:col-span-2 space-y-5">
+          {/* SECTION 1: Current Operational Deployment */}
+          <Card className="p-5 shadow-sm border-slate-200/80 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                  <MapPin className="h-4 w-4" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm font-bold text-slate-900">
                     Current Operational Assignment
                   </CardTitle>
-                  {activeAsg && role === 'ADMIN' && (
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={handleCloseActiveAssignment}
-                      className="font-bold text-xs"
-                    >
-                      Conclude Assignment
-                    </Button>
-                  )}
+                  <p className="text-[11px] text-slate-500 font-medium">Active duty station and site deployment timeline</p>
+                </div>
+              </div>
+              {activeAsg && role === 'ADMIN' && (
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleCloseActiveAssignment}
+                  className="font-bold text-xs"
+                >
+                  Conclude Assignment
+                </Button>
+              )}
+            </div>
+
+            {activeAsg ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/90 space-y-1">
+                  <div className="text-[10px] uppercase font-bold text-slate-500">Site & Client Facility</div>
+                  <div className="font-bold text-slate-900 text-sm">{activeAsg.locationName}</div>
+                  <div className="text-slate-600 font-medium">{activeAsg.clientName}</div>
+                  <div className="text-[11px] text-blue-600 font-semibold pt-0.5">Project: {activeAsg.projectName}</div>
                 </div>
 
-                {activeAsg ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                      <div className="text-[11px] uppercase font-bold text-slate-500">Site & Client</div>
-                      <div className="font-bold text-slate-900 text-sm">{activeAsg.locationName}</div>
-                      <div className="text-slate-600 font-medium">{activeAsg.clientName}</div>
-                      <div className="text-[11px] text-blue-600 font-semibold">Project: {activeAsg.projectName}</div>
-                    </div>
+                <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/90 space-y-1">
+                  <div className="text-[10px] uppercase font-bold text-slate-500">Assignment Timeline & Duty Role</div>
+                  <div className="font-semibold text-slate-700">
+                    Role: <span className="text-slate-900 font-bold">{activeAsg.positionOnSite || person.position}</span>
+                  </div>
+                  <div className="text-slate-600 font-medium">
+                    Deployed: <strong className="text-slate-900">{formatDate(activeAsg.startDate)}</strong> &rarr;{' '}
+                    <strong className="text-slate-900">{activeAsg.endDate ? formatDate(activeAsg.endDate) : 'Indefinite / Ongoing'}</strong>
+                  </div>
+                  <div className="pt-1">
+                    <Badge variant="default" className="gap-1 font-bold bg-slate-950 text-[#FFF100] border border-slate-800 text-[10px]">
+                      <CheckCircle className="h-3 w-3" /> ACTIVE ON SITE
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="p-6 text-center rounded-xl bg-slate-50/60 border border-dashed border-slate-200 space-y-2">
+                <p className="text-xs text-slate-500 font-medium">This officer currently has no active site assignment (Ready in Standby Pool).</p>
+                {role === 'ADMIN' && (
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => setIsAssignModalOpen(true)}
+                    className="font-bold bg-[#FFF100] text-slate-950 hover:bg-[#ebd900] border border-yellow-300 shadow-2xs gap-1.5"
+                  >
+                    <ShieldCheck className="h-3.5 w-3.5 text-slate-950" />
+                    <span>Deploy to Site Now</span>
+                  </Button>
+                )}
+              </div>
+            )}
+          </Card>
 
-                    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                      <div className="text-[11px] uppercase font-bold text-slate-500">Assignment Timeline & Role</div>
-                      <div className="font-semibold text-slate-700">
-                        Role: <span className="text-slate-900 font-bold">{activeAsg.positionOnSite || person.position}</span>
-                      </div>
-                      <div className="text-slate-600 font-medium">
-                        Deployed: <strong className="text-slate-900">{formatDate(activeAsg.startDate)}</strong> &rarr;{' '}
-                        <strong className="text-slate-900">{activeAsg.endDate ? formatDate(activeAsg.endDate) : 'Indefinite / Ongoing'}</strong>
-                      </div>
-                      <div className="pt-1">
-                        <Badge variant="success" className="gap-1 font-bold">
-                          <CheckCircle className="h-3 w-3" /> ACTIVE ON SITE
+          {/* SECTION 2: Security Uniform & Equipment Sizing (Kaporlap & Fitness) */}
+          <Card className="p-5 shadow-sm border-slate-200/80 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                  <Shield className="h-4 w-4" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm font-bold text-slate-900">
+                    Uniform Sizing & Issued Tactical Gear (Kaporlap)
+                  </CardTitle>
+                  <p className="text-[11px] text-slate-500 font-medium">Official apparel, footwear, physical readiness & tactical equipment</p>
+                </div>
+              </div>
+              {person.bloodType && (
+                <Badge variant="outline" className="bg-rose-50 text-rose-700 border-rose-200 font-bold gap-1 text-xs">
+                  Blood: {person.bloodType}
+                </Badge>
+              )}
+            </div>
+
+            {/* Official Apparel & Footwear */}
+            <div>
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                Official Apparel & Footwear Sizing
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <div className="text-[10px] text-slate-500 font-medium">Shirt (PDL/PDH)</div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5">{person.shirtSize || 'L'}</div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">Tactical Uniform</div>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <div className="text-[10px] text-slate-500 font-medium">Pants Size</div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5">{person.pantsSize || '34'}</div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">Waist / Inseam</div>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <div className="text-[10px] text-slate-500 font-medium">Tactical Boots</div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5">{person.shoesSize || '42'}</div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">EU Shoe Size</div>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center">
+                  <div className="text-[10px] text-slate-500 font-medium">Beret / Hat</div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5">{person.headwearSize || '58'}</div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">Circumference (cm)</div>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-center col-span-2 sm:col-span-1">
+                  <div className="text-[10px] text-slate-500 font-medium">Duty Belt (Kopel)</div>
+                  <div className="text-base font-extrabold text-slate-900 mt-0.5 truncate">{person.dutyBeltSize || 'L (100cm)'}</div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">Heavy-Duty Webbing</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Physical Specifications & Readiness */}
+            <div>
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                Physical Specifications & Fitness
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Height:</span>
+                  <strong className="text-slate-900 font-bold">{person.heightCm || 175} cm</strong>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Weight:</span>
+                  <strong className="text-slate-900 font-bold">{person.weightKg || 72} kg</strong>
+                </div>
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Physical Readiness:</span>
+                  <Badge variant="success" className="font-bold text-[10px]">FIT FOR FIELD DUTY</Badge>
+                </div>
+              </div>
+            </div>
+
+            {/* Standard Field Equipment Issued */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  Standard Field Equipment Issued (Kaporlap)
+                </h4>
+                <span className="text-[11px] text-slate-400 font-medium">
+                  {person.issuedGear?.length || 5} Items Assigned
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {(person.issuedGear || [
+                  'Tongkat T (Tactical Baton)',
+                  'Borgol Baja (Handcuffs)',
+                  'Kopel Rim (Duty Belt)',
+                  'Handy Talkie (HT Motorola)',
+                  'Senter Lalin LED (Flashlight)',
+                ]).map((gear, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200/80 flex items-center justify-between text-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                      <span className="font-semibold text-slate-900 text-xs">{gear}</span>
+                    </div>
+                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[9px] font-bold">
+                      ISSUED & ACTIVE
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* SECTION 3: Certifications & Qualification Badges */}
+          <Card className="p-5 shadow-sm border-slate-200/80 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
+                  <Award className="h-4 w-4" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm font-bold text-slate-900">
+                    Recorded Certifications & Qualification Badges
+                  </CardTitle>
+                  <p className="text-[11px] text-slate-500 font-medium">Police-accredited security licenses, tactical skills & specialty training</p>
+                </div>
+              </div>
+              <Badge variant="outline" className="text-xs font-bold bg-slate-50 text-slate-700">
+                {person.qualifications.length} Credentials
+              </Badge>
+            </div>
+
+            {person.qualifications.length === 0 ? (
+              <p className="text-xs text-slate-400 italic py-2">No formal certifications recorded.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {person.qualifications.map((q) => {
+                  const isValid = q.status === 'VALID';
+                  return (
+                    <div
+                      key={q.id}
+                      className={`p-3 rounded-xl border transition ${
+                        isValid
+                          ? 'bg-blue-50/40 border-blue-200/80'
+                          : 'bg-rose-50/40 border-rose-200/80'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-bold text-slate-900 text-xs">{q.qualificationName}</div>
+                        <Badge variant={isValid ? 'success' : 'destructive'} className="font-bold text-[9px]">
+                          {!isValid && <AlertTriangle className="h-2.5 w-2.5 mr-1" />}
+                          {q.status}
                         </Badge>
                       </div>
+                      <div className="text-[11px] text-slate-600 font-medium mt-1">Issuing Body: {q.issuingOrg}</div>
+                      <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-2">
+                        <span>Issued: {formatDate(q.issueDate)}</span>
+                        <span>&bull;</span>
+                        <span className={isValid ? 'text-slate-600 font-medium' : 'text-rose-700 font-bold'}>
+                          Expires: {formatDate(q.expiryDate)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="p-8 text-center rounded-xl bg-slate-50 border border-dashed border-slate-200 space-y-2">
-                    <p className="text-xs text-slate-500 font-medium">This officer currently has no active deployment assignment.</p>
-                    {role === 'ADMIN' && (
-                      <Button
-                        variant="default"
-                        size="sm"
-                        onClick={() => setIsAssignModalOpen(true)}
-                        className="font-bold"
-                      >
-                        Deploy to a Site Now
-                      </Button>
-                    )}
-                  </div>
-                )}
-              </Card>
-            </TabsContent>
+                  );
+                })}
+              </div>
+            )}
+          </Card>
 
-            {/* TAB 2: Qualifications & Badges */}
-            <TabsContent value="qualifications">
-              <Card className="p-5 shadow-sm border-slate-200/80">
-                <CardTitle className="flex items-center gap-2 border-b border-slate-100 pb-3 mb-4 text-sm font-bold text-slate-900">
-                  <Award className="h-4 w-4 text-indigo-600" />
-                  Recorded Certifications & Qualification Badges
-                </CardTitle>
-
-                {person.qualifications.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic">No formal certifications recorded.</p>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    {person.qualifications.map((q) => {
-                      const isValid = q.status === 'VALID';
-                      return (
-                        <div
-                          key={q.id}
-                          className={`p-3.5 rounded-xl border transition ${
-                            isValid
-                              ? 'bg-blue-50/50 border-blue-200'
-                              : 'bg-rose-50/50 border-rose-200'
-                          }`}
-                        >
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="font-bold text-slate-900 text-xs">{q.qualificationName}</div>
-                            <Badge variant={isValid ? 'success' : 'destructive'} className="font-bold">
-                              {!isValid && <AlertTriangle className="h-2.5 w-2.5 mr-1" />}
-                              {q.status}
-                            </Badge>
-                          </div>
-                          <div className="text-[11px] text-slate-600 font-medium mt-1">Issuing Body: {q.issuingOrg}</div>
-                          <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-2">
-                            <span>Issued: {formatDate(q.issueDate)}</span>
-                            <span>&bull;</span>
-                            <span className={isValid ? 'text-slate-600 font-medium' : 'text-rose-700 font-bold'}>
-                              Expires: {formatDate(q.expiryDate)}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </Card>
-            </TabsContent>
-
-            {/* TAB 3: Placement History */}
-            <TabsContent value="history">
-              <Card className="p-5 shadow-sm border-slate-200/80">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                  <CardTitle className="flex items-center gap-2 text-sm font-bold text-slate-900">
-                    <History className="h-4 w-4 text-emerald-600" />
+          {/* SECTION 4: Placement History Archive */}
+          <Card className="p-5 shadow-sm border-slate-200/80 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <History className="h-4 w-4" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm font-bold text-slate-900">
                     Historical Placement & Deployment Archive
                   </CardTitle>
-                  <span className="text-xs text-slate-500 font-mono font-medium">
-                    {priorAssignments.length} Past Record{priorAssignments.length === 1 ? '' : 's'}
-                  </span>
+                  <p className="text-[11px] text-slate-500 font-medium">Chronological record of past security postings and assignments</p>
                 </div>
+              </div>
+              <span className="text-xs text-slate-500 font-mono font-medium">
+                {priorAssignments.length} Past Record{priorAssignments.length === 1 ? '' : 's'}
+              </span>
+            </div>
 
-                {priorAssignments.length === 0 ? (
-                  <p className="text-xs text-slate-400 italic py-4">No historical prior deployments recorded.</p>
-                ) : (
-                  <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
-                    {priorAssignments.map((asg) => (
-                      <div key={asg.id} className="relative group">
-                        <span className="absolute -left-6 top-1.5 h-3 w-3 rounded-full bg-slate-300 border-2 border-white group-hover:bg-blue-600 transition-colors" />
+            {priorAssignments.length === 0 ? (
+              <p className="text-xs text-slate-400 italic py-2">No historical prior deployments recorded.</p>
+            ) : (
+              <div className="relative pl-6 space-y-3 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                {priorAssignments.map((asg) => (
+                  <div key={asg.id} className="relative group">
+                    <span className="absolute -left-6 top-1.5 h-3 w-3 rounded-full bg-slate-300 border-2 border-white group-hover:bg-[#FFF100] transition-colors" />
 
-                        <div className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200 text-xs space-y-1">
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-slate-900">{asg.locationName}</span>
-                            <Badge variant="secondary" className="font-bold">{asg.status}</Badge>
-                          </div>
-                          <div className="text-[11px] text-slate-600 font-medium">
-                            {asg.clientName} &bull; {asg.projectName}
-                          </div>
-                          <div className="text-[10px] text-slate-500 flex items-center justify-between pt-1">
-                            <span>Role: <strong className="text-slate-700">{asg.positionOnSite || person.position}</strong></span>
-                            <span>{formatDate(asg.startDate)} &rarr; {formatDate(asg.endDate)}</span>
-                          </div>
-                        </div>
+                    <div className="p-3 rounded-xl bg-slate-50/80 border border-slate-200 text-xs space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-slate-900">{asg.locationName}</span>
+                        <Badge variant="secondary" className="font-bold text-[9px]">{asg.status}</Badge>
                       </div>
-                    ))}
+                      <div className="text-[11px] text-slate-600 font-medium">
+                        {asg.clientName} &bull; {asg.projectName}
+                      </div>
+                      <div className="text-[10px] text-slate-500 flex items-center justify-between pt-0.5">
+                        <span>Role: <strong className="text-slate-700">{asg.positionOnSite || person.position}</strong></span>
+                        <span>{formatDate(asg.startDate)} &rarr; {formatDate(asg.endDate)}</span>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </Card>
-            </TabsContent>
-          </Tabs>
+                ))}
+              </div>
+            )}
+          </Card>
         </div>
       </div>
 
